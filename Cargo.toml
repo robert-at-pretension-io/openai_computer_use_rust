@@ -1,0 +1,28 @@
+[package]
+name = "openai-cua-desktop"
+version = "0.1.0"
+edition = "2021"
+authors = ["Your Name <your.email@example.com>"]
+description = "OpenAI Computer-Use Agent desktop environment in Rust"
+license = "MIT"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1", features = ["full"] }
+base64 = "0.21"
+enigo = "0.1"
+screenshots = "0.7"
+async-trait = "0.1"
+thiserror = "1.0"
+log = "0.4"
+env_logger = "0.10"
+image = "0.24"
+anyhow = "1.0"
+dotenv = "0.15"
+futures = "0.3"
+uuid = { version = "1.4", features = ["v4"] }
+hyper = { version = "0.14", features = ["client", "http1", "tcp"] }
+hyper-tls = "0.5.0"
+http = "0.2"
+native-tls = "=0.2.11"
