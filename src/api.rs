@@ -101,8 +101,13 @@ impl OpenAIClient {
                 .map_err(|e| CuaError::Other(format!("Failed to read error response: {}", e)))?;
             
             let error_text = String::from_utf8_lossy(&body_bytes);
-            
-            return Err(CuaError::Other(format!(
+            if status.as_u16() == 502 {
+                return Err(CuaError::ApiError(format!(
+                    "Received 502 Bad Gateway from API. Please check your network connectivity or try again later. Error details: {}",
+                    error_text
+                )));
+            }
+            return Err(CuaError::ApiError(format!(
                 "API returned error {}: {}",
                 status,
                 error_text

@@ -386,9 +386,9 @@ impl Computer for ThreadComputer {
         
         self.command_sender.send(InputCommand::Screenshot {
             response: tx,
-        }).await.map_err(|_| CuaError::ActionError("Failed to send screenshot command".to_string()))?;
+        }).await.map_err(|_| CuaError::ActionError("Failed to send screenshot command: desktop input thread is shutting down".to_string()))?;
         
-        rx.await.map_err(|_| CuaError::ActionError("Failed to receive screenshot response".to_string()))?
+        rx.await.map_err(|_| CuaError::ActionError("Failed to receive screenshot response: desktop input thread is not available".to_string()))?
     }
     
     async fn click(&self, x: i32, y: i32, button: &str) -> Result<(), CuaError> {
@@ -399,9 +399,9 @@ impl Computer for ThreadComputer {
             y,
             button: button.to_string(),
             response: tx,
-        }).await.map_err(|_| CuaError::ActionError("Failed to send click command".to_string()))?;
+        }).await.map_err(|_| CuaError::ActionError("Failed to send click command: desktop input thread is shutting down".to_string()))?;
         
-        rx.await.map_err(|_| CuaError::ActionError("Failed to receive click response".to_string()))?
+        rx.await.map_err(|_| CuaError::ActionError("Failed to receive click response: desktop input thread is not available".to_string()))?
     }
     
     async fn double_click(&self, x: i32, y: i32) -> Result<(), CuaError> {
@@ -411,9 +411,9 @@ impl Computer for ThreadComputer {
             x,
             y,
             response: tx,
-        }).await.map_err(|_| CuaError::ActionError("Failed to send double click command".to_string()))?;
+        }).await.map_err(|_| CuaError::ActionError("Failed to send double click command: desktop input thread is shutting down".to_string()))?;
         
-        rx.await.map_err(|_| CuaError::ActionError("Failed to receive double click response".to_string()))?
+        rx.await.map_err(|_| CuaError::ActionError("Failed to receive double click response: desktop input thread is not available".to_string()))?
     }
     
     async fn scroll(&self, x: i32, y: i32, scroll_x: i32, scroll_y: i32) -> Result<(), CuaError> {
@@ -425,9 +425,9 @@ impl Computer for ThreadComputer {
             scroll_x,
             scroll_y,
             response: tx,
-        }).await.map_err(|_| CuaError::ActionError("Failed to send scroll command".to_string()))?;
+        }).await.map_err(|_| CuaError::ActionError("Failed to send scroll command: desktop input thread is shutting down".to_string()))?;
         
-        rx.await.map_err(|_| CuaError::ActionError("Failed to receive scroll response".to_string()))?
+        rx.await.map_err(|_| CuaError::ActionError("Failed to receive scroll response: desktop input thread is not available".to_string()))?
     }
     
     async fn type_text(&self, text: &str) -> Result<(), CuaError> {
@@ -436,9 +436,9 @@ impl Computer for ThreadComputer {
         self.command_sender.send(InputCommand::TypeText {
             text: text.to_string(),
             response: tx,
-        }).await.map_err(|_| CuaError::ActionError("Failed to send type text command".to_string()))?;
+        }).await.map_err(|_| CuaError::ActionError("Failed to send type text command: desktop input thread is shutting down".to_string()))?;
         
-        rx.await.map_err(|_| CuaError::ActionError("Failed to receive type text response".to_string()))?
+        rx.await.map_err(|_| CuaError::ActionError("Failed to receive type text response: desktop input thread is not available".to_string()))?
     }
     
     async fn wait(&self, ms: u32) -> Result<(), CuaError> {
@@ -453,9 +453,9 @@ impl Computer for ThreadComputer {
             x,
             y,
             response: tx,
-        }).await.map_err(|_| CuaError::ActionError("Failed to send move cursor command".to_string()))?;
+        }).await.map_err(|_| CuaError::ActionError("Failed to send move cursor command: desktop input thread is shutting down".to_string()))?;
         
-        rx.await.map_err(|_| CuaError::ActionError("Failed to receive move cursor response".to_string()))?
+        rx.await.map_err(|_| CuaError::ActionError("Failed to receive move cursor response: desktop input thread is not available".to_string()))?
     }
     
     async fn keypress(&self, keys: &[String]) -> Result<(), CuaError> {
@@ -464,9 +464,9 @@ impl Computer for ThreadComputer {
         self.command_sender.send(InputCommand::Keypress {
             keys: keys.to_vec(),
             response: tx,
-        }).await.map_err(|_| CuaError::ActionError("Failed to send keypress command".to_string()))?;
+        }).await.map_err(|_| CuaError::ActionError("Failed to send keypress command: desktop input thread is shutting down".to_string()))?;
         
-        rx.await.map_err(|_| CuaError::ActionError("Failed to receive keypress response".to_string()))?
+        rx.await.map_err(|_| CuaError::ActionError("Failed to receive keypress response: desktop input thread is not available".to_string()))?
     }
     
     async fn drag(&self, path: &[HashMap<String, i32>]) -> Result<(), CuaError> {
@@ -475,9 +475,9 @@ impl Computer for ThreadComputer {
         self.command_sender.send(InputCommand::Drag {
             path: path.to_vec(),
             response: tx,
-        }).await.map_err(|_| CuaError::ActionError("Failed to send drag command".to_string()))?;
+        }).await.map_err(|_| CuaError::ActionError("Failed to send drag command: desktop input thread is shutting down".to_string()))?;
         
-        rx.await.map_err(|_| CuaError::ActionError("Failed to receive drag response".to_string()))?
+        rx.await.map_err(|_| CuaError::ActionError("Failed to receive drag response: desktop input thread is not available".to_string()))?
     }
     
     async fn get_current_url(&self) -> Result<String, CuaError> {
