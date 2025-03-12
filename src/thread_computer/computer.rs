@@ -185,15 +185,12 @@ impl ThreadComputer {
                             // Update cursor position
                             *cursor_position_clone.lock().unwrap() = (x, y);
                             
-                            // Scroll
-                            // Note: Enigo's scroll direction is opposite to what most users expect
-                            // So we negate the scroll values
                             if scroll_x != 0 {
-                                enigo.mouse_scroll_x(-(scroll_x / 3));
+                                enigo.mouse_scroll_x(scroll_x / 10);
                             }
                             
                             if scroll_y != 0 {
-                                enigo.mouse_scroll_y(scroll_y / 3);
+                                enigo.mouse_scroll_y(scroll_y / 10);
                             }
                             
                             Ok(())
