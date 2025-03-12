@@ -96,6 +96,9 @@ impl Agent {
         
         match item_type {
             "message" => {
+                if self.debug {
+                    println!("DEBUG: Handling 'message' item: {:?}", item);
+                }
                 if self.print_steps {
                     if let Some(content) = item.get("content").and_then(|c| c.as_array()) {
                         if let Some(text_obj) = content.first() {
@@ -112,6 +115,9 @@ impl Agent {
                     item.get("arguments").and_then(|a| a.as_str()),
                     item.get("call_id"),
                 ) {
+                    if self.debug {
+                        println!("DEBUG: Handling 'function_call' item with name: {}", name);
+                    }
                     if self.print_steps {
                         println!("Function call: {}({})", name, arguments);
                     }
@@ -168,7 +174,9 @@ impl Agent {
                                 let x = action.get("x").and_then(|x| x.as_i64()).unwrap_or(0) as i32;
                                 let y = action.get("y").and_then(|y| y.as_i64()).unwrap_or(0) as i32;
                                 let button = action.get("button").and_then(|b| b.as_str()).unwrap_or("left");
-                                
+                                if self.debug {
+                                    println!("DEBUG: Processing click command at ({}, {}) with button: {}", x, y, button);
+                                }
                                 self.computer.click(x, y, button).await?;
                             }
                             "double_click" => {
@@ -213,6 +221,9 @@ impl Agent {
                             }
                             "drag" => {
                                 if let Some(path) = action.get("path").and_then(|p| p.as_array()) {
+                                    if self.debug {
+                                        println!("DEBUG: Processing drag command with {} points", path.len());
+                                    }
                                     let path_points: Vec<HashMap<String, i32>> = path
                                         .iter()
                                         .filter_map(|point| {

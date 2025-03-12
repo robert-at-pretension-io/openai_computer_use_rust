@@ -7,6 +7,7 @@ use std::env;
 use hyper::{body::to_bytes, Client, Request, Body, Method};
 use hyper_tls::HttpsConnector;
 use http::header::{HeaderMap, HeaderValue, AUTHORIZATION, CONTENT_TYPE};
+use std::time::Instant;
 
 /// Response from the OpenAI API
 #[derive(Debug, Deserialize)]
@@ -57,6 +58,8 @@ impl OpenAIClient {
     /// Create a response using the Responses API
     pub async fn create_response(&self, input: &[Value], tools: &[Value]) -> Result<ApiResponse, CuaError> {
         let url = "https://api.openai.com/v1/responses";
+        let start_time = Instant::now();
+        println!("DEBUG: Sending API request to {}", url);
         
         // Create the request body
         let body = json!({
@@ -88,6 +91,7 @@ impl OpenAIClient {
         let response = self.client.request(request)
             .await
             .map_err(|e| CuaError::Other(format!("Failed to send request: {}", e)))?;
+        println!("DEBUG: API request sent. Status: {}", response.status());
         
         // Check for errors
         if !response.status().is_success() {
@@ -112,7 +116,7 @@ impl OpenAIClient {
         
         let api_response = serde_json::from_slice::<ApiResponse>(&body_bytes)
             .map_err(|e| CuaError::Other(format!("Failed to parse response: {}", e)))?;
-        
+        println!("DEBUG: API response processed in {} ms", start_time.elapsed().as_millis());
         Ok(api_response)
     }
 }

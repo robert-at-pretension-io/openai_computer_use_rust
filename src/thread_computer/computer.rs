@@ -134,6 +134,7 @@ impl ThreadComputer {
             while let Some(cmd) = rx.blocking_recv() {
                 match cmd {
                     InputCommand::Click { x, y, button, response } => {
+                        println!("DEBUG: Processing InputCommand::Click at ({}, {}) with button: {}", x, y, button);
                         let result = (|| {
                             // Move to position first
                             enigo.mouse_move_to(x, y);
@@ -202,6 +203,7 @@ impl ThreadComputer {
                     }
                     
                     InputCommand::TypeText { text, response } => {
+                        println!("DEBUG: Processing InputCommand::TypeText with text: {}", text);
                         let result = (|| {
                             enigo.key_sequence(&text);
                             Ok(())
