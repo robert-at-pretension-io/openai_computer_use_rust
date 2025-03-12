@@ -193,7 +193,7 @@ impl ThreadComputer {
                             }
                             
                             if scroll_y != 0 {
-                                enigo.mouse_scroll_y(-scroll_y);
+                                enigo.mouse_scroll_y(scroll_y);
                             }
                             
                             Ok(())
